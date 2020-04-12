@@ -1,0 +1,26 @@
+{
+    "name": "den1n/laravel-concurrent-sessions",
+    "description": "This Laravel package limits the number of concurrent sessions per user.",
+    "homepage": "https://github.com/den1n/laravel-concurrent-sessions",
+    "license": "MIT",
+    "keywords": ["den1n", "laravel", "concurrent", "sessions"],
+    "authors": [{
+        "name": "Dmitry Kadochnikov",
+        "email": "iqmass@gmail.com"
+    }],
+    "require": {
+        "php": ">=7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Den1n\\ConcurrentSessions\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Den1n\\ConcurrentSessions\\ServiceProvider"
+            ]
+        }
+    }
+}
