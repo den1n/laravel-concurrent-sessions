@@ -16,6 +16,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             __DIR__ . '/../migrations' => database_path('migrations'),
         ], 'migrations');
 
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+
         Event::listen(Authenticated::class, Listeners\Authenticated::class);
     }
 
