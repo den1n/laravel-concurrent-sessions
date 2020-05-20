@@ -12,10 +12,11 @@ class Authenticated
      */
     public function handle(AuthenticatedEvent $event): void
     {
-        $user = $event->user;
-        $id = Session::getId();
+        if ($user = $event->user and $user->sessions_limit) {
+            $id = Session::getId();
 
-        if (!in_array($id, $user->sessions))
-            $user->sessions = array_merge($user->sessions, [$id]);
+            if (!in_array($id, $user->sessions))
+                $user->sessions = array_merge($user->sessions, [$id]);
+        }
     }
 }

@@ -14,22 +14,18 @@ class VerifyLimit
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($user = $request->user()) {
-            $limit = $user->sessions_limit;
+        if ($user = $request->user() and $limit = $user->sessions_limit) {
+            $sessions = $user->sessions;
 
-            if ($limit !== null) {
-                $sessions = $user->sessions;
+            while (count($sessions) > $limit)
+                Session::getHandler()->destroy(array_shift($sessions));
 
-                while (count($sessions) > $limit)
-                    Session::getHandler()->destroy(array_shift($sessions));
+            $user->sessions = $sessions;
+            $user->save();
 
-                $user->sessions = $sessions;
-                $user->save();
-
-                if (!in_array(Session::getId(), $user->sessions)) {
-                    auth()->logout();
-                    throw new AuthenticationException;
-                }
+            if (!in_array(Session::getId(), $user->sessions)) {
+                auth()->logout();
+                throw new AuthenticationException;
             }
         }
 
